@@ -7,7 +7,7 @@ import dbClient from '../utils/db';
 const folderPath = process.env.FOLDER_PATH || '/tmp/files_manager';
 
 class FilesController {
-  static async postUpload(req, res) { 
+  static async postUpload(req, res) {
     const user = await getUserByToken(req);
     if (!user) {
       return res.status(401).json({ error: 'Unauthorized' });
@@ -92,44 +92,38 @@ class FilesController {
     }
     return null;
   }
-  static async getShow (req, res) {
+
+  static async getShow(req, res) {
     const user = await getUserByToken(req);
     if (!user) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-    const id = req.params.id;
-    const file = await dbClient.filesCollection.findOne({ _id: new ObjectId(id), userId: user._id });
+    const { id } = req.params;
+    const file = await dbClient
+      .filesCollection
+      .findOne({ _id: new ObjectId(id), userId: user._id });
     if (!file) {
       return res.status(404).json({ error: 'Not found' });
-    } else {
-      return res.status(200).json(file);
     }
+    return res.status(200).json(file);
   }
 
   static async getIndex(req, res) {
     const user = await getUserByToken(req);
+    // eslint-disable-next-line radix
     const page = parseInt(req.query.page) || 0;
     if (!user) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
     const parentId = req.query.parentId || 0;
 
-    
-
     const files = await dbClient.filesCollection.aggregate([
-      { $match: parentId},
-      { $skip: (page - 1) * 20},
-      { $limit: 20},
+      { $match: parentId },
+      { $skip: (page - 1) * 20 },
+      { $limit: 20 },
     ]).toArray();
 
     return res.json(files);
-
-
-
-    // db.files.aggregate([
-    //   { $skip: skip },
-    //   { $limit: pageSize }
-    // ])
   }
 }
 module.exports = FilesController;
