@@ -6,13 +6,6 @@ import dbClient from '../utils/db';
 class AuthController {
   static async getConnect(req, res) {
     const authHeader = req.headers.authorization;
-    // console.log(authHeader);
-
-    // if (!authHeader || !authHeader.startsWith('Basic ')) {
-    //   res.status(401).json({ error: 'Unauthorized' });
-    //   return;
-    // }
-
     const base64Credentials = authHeader.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [email, password] = credentials.split(':');
@@ -34,7 +27,6 @@ class AuthController {
     const token = req.headers['x-token'];
     const authKey = `auth_${token}`;
     const id = await redisClient.get(authKey);
-    // console.log(token);
     if (id) {
       await redisClient.del(authKey);
       res.status(204).json({});
