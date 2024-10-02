@@ -57,10 +57,6 @@
     "type": "git",
     "url": ""
   },
-  "bugs": {
-    "url": ""
-  },
-  "homepage": "",
   "engines": {
     "node": "16.x",
     "npm": "8.x",

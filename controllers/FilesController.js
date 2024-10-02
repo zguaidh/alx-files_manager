@@ -14,12 +14,12 @@ import mongoDBCore from 'mongodb/lib/core';
 import dbClient from '../utils/db';
 import { getUserFromXToken } from '../utils/auth';
 
+const ROOT_FOLDER_ID = 0;
 const VALID_FILE_TYPES = {
   folder: 'folder',
   file: 'file',
   image: 'image',
 };
-const ROOT_FOLDER_ID = 0;
 const DEFAULT_ROOT_FOLDER = 'files_manager';
 const mkDirAsync = promisify(mkdir);
 const writeFileAsync = promisify(writeFile);
@@ -32,9 +32,9 @@ const isValidId = (id) => {
   const size = 24;
   let i = 0;
   const charRanges = [
-    [48, 57], // 0 - 9
-    [97, 102], // a - f
-    [65, 70], // A - F
+    [48, 57], // Between 0 - 9
+    [97, 102], // Between a - f
+    [65, 70], // Between A - F
   ];
   if (typeof id !== 'string' || id.length !== size) {
     return false;
