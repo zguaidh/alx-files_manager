@@ -21,14 +21,12 @@ class DBClient {
 
   async nbUsers() {
     const users = this.db.collection('users');
-    // await users.insertOne({ name: 'John Doe', email: 'john.doe@example.com' });
     const nbUsers = await users.countDocuments();
     return nbUsers;
   }
 
   async nbFiles() {
     const files = this.db.collection('files');
-    // await files.insertOne({ name: 'John Doe', email: 'john.doe@example.com' });
     const nbFiles = await files.countDocuments();
     return nbFiles;
   }
